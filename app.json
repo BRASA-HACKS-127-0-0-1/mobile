@@ -11,6 +11,10 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "notification": {
+      "icon": "./assets/icon.png",
+      "iosDisplayInForeground": false
+    },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
