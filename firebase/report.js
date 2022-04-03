@@ -1,6 +1,6 @@
 import {collection, query, getDocs, setDoc, doc} from "firebase/firestore";
 import uuid from "react-native-uuid";
-import { db } from "./config";
+import {db} from "./config";
 
 export async function addReport(data) {
     await setDoc(doc(db, "reports", uuid.v4()), {
