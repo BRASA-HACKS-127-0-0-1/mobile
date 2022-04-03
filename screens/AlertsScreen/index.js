@@ -43,7 +43,7 @@ const AlertsScreen = () => {
                 {(selectedIndex === 0 && listAlertsToday && listAlertsToday.length > 0) ? (
                     listAlertsToday.map((item) => {
                             return (
-                                <View key={item.id} style={[styles.card, styles.shadowProp]}>
+                                <View key={item.id} style={[styles.card, styles.shadowProp, {borderTopColor: item.aviso_cor, borderTopWidth: 5}]}>
                                     <CardAlerts item={item}/>
                                 </View>
                             )
