@@ -2,6 +2,7 @@ import * as React from 'react';
 import MapView, {Heatmap, PROVIDER_GOOGLE} from 'react-native-maps';
 import {StyleSheet, View, Dimensions} from 'react-native';
 import * as Location from 'expo-location';
+import {getReports} from '../../firebase/report';
 import MapActions from './MapActions';
 
 export default function MapScreen() {
@@ -37,6 +38,9 @@ export default function MapScreen() {
 
                 let location = await Location.getCurrentPositionAsync({});
                 setLocation(location);
+
+                let reports = await getReports();
+                setPoints(reports);
             } catch (error) {
                 setLocation(null);
             }
@@ -67,14 +71,9 @@ export default function MapScreen() {
             <MapView
                 style={styles.map}
                 provider={PROVIDER_GOOGLE}
-                initialRegion={{
-                    latitude: -22.5046,
-                    longitude: -43.17861,
-                    latitudeDelta: 0.05,
-                    longitudeDelta: 0.05,
-                }}
+                initialRegion={region}
                 minDelta={0.01}
-                minZoomLevel={14}
+                minZoomLevel={13}
                 ref={mapRef}
                 onRegionChange={(region) => setRegion(region)}
             >
@@ -83,9 +82,8 @@ export default function MapScreen() {
                     points={points}
                     opacity={1}
                     radius={20}
-                    maxIntensity={100}
+                    maxIntensity={111}
                     gradientSmoothing={10}
-                    heatmapMode={"POINTS_DENSITY"}
                 />
             </MapView>
             <MapActions region={region} updatePoints={updatePoints}/>

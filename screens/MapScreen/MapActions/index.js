@@ -82,17 +82,17 @@ const MapActions = ({region, updatePoints}) => {
             longitude: region.longitude,
             weight: levelSelected.weight
         }
-        try{
+        try {
             await addReport(report);
+            updatePoints(report)
             Alert.alert(`Reporte de ${reportType.title}`, `Nível: ${levelSelected.title}`);
-        } catch (e){
+        } catch (e) {
             Alert.alert("Não foi possível registrar seu report nesse momento.")
         }
-        updatePoints(report)
         setLevelSelected(null);
         setReportType(null);
 
-    }, [reportType, levelSelected, updatePoints])
+    }, [reportType, levelSelected])
     if (reportType) {
         return (
             <>
