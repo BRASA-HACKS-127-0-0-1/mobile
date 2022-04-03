@@ -5,12 +5,14 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import colors from './styles/colors';
 import NewsScreen from './screens/NewsScreen';
 import AlertsScreen from './screens/AlertsScreen';
+import Notification from './services/notification';
 
 const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
+      <Notification />
       <Tab.Navigator
         screenOptions={({ route }) => ({
           headerShown: false,
@@ -42,7 +44,7 @@ export default function App() {
       >
         <Tab.Screen name="Mapa" component={MapScreen} />
         <Tab.Screen name="Notícias" component={NewsScreen} />
-        <Tab.Screen name="Notificações" component={AlertsScreen} />
+        <Tab.Screen name="Notificações" component={Notification} />
       </Tab.Navigator>
     </NavigationContainer>
   );
