@@ -9,6 +9,8 @@ import marker from '../../assets/icons/marker.png';
 export default function MapScreen() {
   const [location, setLocation] = React.useState(null);
   const [errorMsg, setErrorMsg] = React.useState(null);
+
+  const [points, setPoints] = React.useState([]);
   const [region, setRegion] = React.useState({
     latitude: -22.5046,
     longitude: -43.17861,
@@ -40,6 +42,11 @@ export default function MapScreen() {
     mapRef.current.setMapBoundaries({latitude: -22.409190077590846, longitude: -43.150089186564614}, {latitude: -22.56470395707823, longitude: -43.25086811053996});
   },[mapRef]);
 
+
+  const updatePoints = React.useCallback((report) => {
+    setPoints([...points, report]);
+  },[points]);
+
   let text = 'Waiting..';
   if (errorMsg) {
     text = errorMsg;
@@ -62,8 +69,18 @@ export default function MapScreen() {
         minZoomLevel={14}
         ref={mapRef}
         onRegionChange={(region)=>  setRegion(region)}
-       />
-       <MapActions region={region}/>
+       >
+
+        <MapView.Heatmap 
+          points={points}
+          opacity={1}
+          radius={20}
+          maxIntensity={100}
+          gradientSmoothing={10}
+          heatmapMode={"POINTS_DENSITY"}
+        />
+       </MapView>         
+       <MapActions region={region} updatePoints={updatePoints}/>
     </View>
   );
 }

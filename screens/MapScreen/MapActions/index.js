@@ -4,7 +4,7 @@ import { Alert, Modal, StyleSheet, Text, Pressable, View, Dimensions, TouchableO
 import { FloatingAction } from "react-native-floating-action";
 import colors from '../../../styles/colors';
 import marker from '../../../assets/icons/marker.png';
-const MapActions = ({region}) => {
+const MapActions = ({region, updatePoints}) => {
   const [reportType, setReportType] = useState(null);
   const [levelSelected, setLevelSelected] = useState(null);
 
@@ -22,10 +22,13 @@ const MapActions = ({region}) => {
       name: "flood", 
       levelsOptions: [{
         title: "Baixo",
+        weight: 1,
       },{
         title: "Médio",
+        weight: 2,
       },{
         title: "Alto",
+        weight: 3,
       }]
     },
     {
@@ -35,10 +38,13 @@ const MapActions = ({region}) => {
       name: "landslide", 
       levelsOptions: [{
         title: "Baixo",
+        weight: 1,
       },{
         title: "Médio",
+        weight: 2,
       },{
         title: "Alto",
+        weight: 3,
       }]
     },
     {
@@ -48,10 +54,13 @@ const MapActions = ({region}) => {
       name: "rain", 
       levelsOptions: [{
         title: "Baixo",
+        weight: 1,
       },{
         title: "Médio",
+        weight: 2,
       },{
         title: "Alto",
+        weight: 3,
       }]
     },
   ];
@@ -65,11 +74,12 @@ const MapActions = ({region}) => {
       Alert.alert("Selecione um nível de reporte");
       return;
     }
-    Alert.alert(`Reporte de ${reportType.title}`, `Nível: ${levelSelected}`);
+    Alert.alert(`Reporte de ${reportType.title}`, `Nível: ${levelSelected.title}`);
     
     //region
     //region.latitude, region.longitude
     
+    updatePoints({...region, weight: levelSelected.weight})
     setLevelSelected(null);
     setReportType(null);
     
@@ -93,7 +103,7 @@ const MapActions = ({region}) => {
           <Text style={{fontSize: 14, fontWeight: 'bold', marginBottom: 16}}>Nível do Reporte:</Text>
           <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around'}}>
             {reportType.levelsOptions.map((level)=>(
-              <TouchableOpacity key={level.title} onPress={()=> setLevelSelected(level.title)} style={[{height: 50, width: 50, borderRadius: '50%', alignItems: 'center', justifyContent: 'center', backgroundColor: 'gray'}, levelSelected === level.title ? {borderColor: colors.orange, borderWidth: "3px"} : {} ]}>
+              <TouchableOpacity key={level.title} onPress={()=> setLevelSelected(level)} style={[{height: 50, width: 50, borderRadius: '50%', alignItems: 'center', justifyContent: 'center', backgroundColor: 'gray'}, levelSelected && levelSelected.title === level.title ? {borderColor: colors.orange, borderWidth: "3px"} : {} ]}>
                 <Text style={{fontSize: 12, fontWeight: 'bold', color: 'white'}}>{level.title}</Text>
               </TouchableOpacity>
             ))}
