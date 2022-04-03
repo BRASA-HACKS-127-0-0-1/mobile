@@ -1,13 +1,21 @@
 import * as React from 'react';
-import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
-import { StyleSheet, Text, View, Dimensions } from 'react-native';
+import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
+import { StyleSheet, Text, View, Dimensions, Image } from 'react-native';
 import * as Location from 'expo-location';
 import { FloatingAction } from "react-native-floating-action";
 import MapActions from './MapActions';
+import marker from '../../assets/icons/marker.png';
 
 export default function MapScreen() {
   const [location, setLocation] = React.useState(null);
   const [errorMsg, setErrorMsg] = React.useState(null);
+  const [region, setRegion] = React.useState({
+    latitude: -22.5046,
+    longitude: -43.17861,
+    latitudeDelta: 0.05,
+    longitudeDelta: 0.05,
+  });
+  const mapRef = React.useRef();
 
   React.useEffect(() => {
     (async () => {
@@ -28,32 +36,34 @@ export default function MapScreen() {
     })();
   }, []);
 
+  React.useEffect(() => {
+    mapRef.current.setMapBoundaries({latitude: -22.409190077590846, longitude: -43.150089186564614}, {latitude: -22.56470395707823, longitude: -43.25086811053996});
+  },[mapRef]);
+
   let text = 'Waiting..';
   if (errorMsg) {
     text = errorMsg;
   } else if (location) {
     text = JSON.stringify(location);
   }
-  if(!location){
-    return (
-      <View style={styles.container}>
-        <Text>Please allow location access.</Text>
-      </View>
-    );
-  }
+  
   return (
     <View style={styles.container}>
       <MapView 
         style={styles.map}
         provider={PROVIDER_GOOGLE}
         initialRegion={{
-          latitude: location.coords.latitude,
-          longitude: location.coords.longitude,
-          latitudeDelta: 1,
-          longitudeDelta: 1,
+          latitude: -22.5046,
+          longitude: -43.17861,
+          latitudeDelta: 0.05,
+          longitudeDelta: 0.05,
         }}
+        minDelta={0.01}
+        minZoomLevel={14}
+        ref={mapRef}
+        onRegionChange={(region)=>  setRegion(region)}
        />
-       <MapActions />
+       <MapActions region={region}/>
     </View>
   );
 }
