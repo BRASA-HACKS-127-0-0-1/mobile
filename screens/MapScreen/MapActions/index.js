@@ -1,86 +1,130 @@
-import React, { useState } from 'react';
-import { Alert, Modal, StyleSheet, Text, Pressable, View, Dimensions } from 'react-native';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Alert, Modal, StyleSheet, Text, Pressable, View, Dimensions, TouchableOpacity, Image } from 'react-native';
 import { FloatingAction } from "react-native-floating-action";
 import colors from '../../../styles/colors';
-const MapActions = () => {
-  const [modalLevelVisible, setModalLevelVisible] = useState(false);
+import marker from '../../../assets/icons/marker.png';
+const MapActions = ({region, updatePoints}) => {
   const [reportType, setReportType] = useState(null);
+  const [levelSelected, setLevelSelected] = useState(null);
+
+  useEffect(() => {
+    if(!reportType){
+      setLevelSelected(null);
+    }
+  }, [reportType]);
+
   const mapReportOptions = [
     {
-      text: "Alagamento",
+      title: "Alagamento",
       icon: require("../../../assets/icons/flood.png"),
       position: 1,
       name: "flood", 
       levelsOptions: [{
-        text: "Baixo",
+        title: "Baixo",
+        weight: 1,
       },{
-        text: "Médio",
+        title: "Médio",
+        weight: 2,
       },{
-        text: "Alto",
+        title: "Alto",
+        weight: 3,
       }]
     },
     {
-      text: "Deslizamento",
+      title: "Deslizamento",
       icon: require("../../../assets/icons/landslide.png"),
       position: 2,
       name: "landslide", 
       levelsOptions: [{
-        text: "Baixo",
+        title: "Baixo",
+        weight: 1,
       },{
-        text: "Médio",
+        title: "Médio",
+        weight: 2,
       },{
-        text: "Alto",
+        title: "Alto",
+        weight: 3,
       }]
     },
     {
-      text: "Chuva",
+      title: "Chuva",
       icon: require("../../../assets/icons/rain.png"),
       position: 3,
       name: "rain", 
       levelsOptions: [{
-        text: "Baixo",
+        title: "Baixo",
+        weight: 1,
       },{
-        text: "Médio",
+        title: "Médio",
+        weight: 2,
       },{
-        text: "Alto",
+        title: "Alto",
+        weight: 3,
       }]
     },
   ];
-  return (
-  <>
-    <View style={{ postion: "absolute", backgroundColor:'red', top: 0, left: 0}}>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalLevelVisible}
-        onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
-          setModalLevelVisible(!modalLevelVisible);
-        }}>
-        {reportType && (
-          <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>Gravidade do {reportType.text}</Text>
-            <View style={styles.optionsContainer}>
-              {reportType.levelsOptions.map((level, index) => (
-                <View style={styles.optionItem}><Text>{level.text}</Text></View>
-              ))}
-            </View>
+
+  const confirmReport = useCallback(() => {
+    if(!reportType){
+      Alert.alert("Selecione um tipo de reporte");
+      return;
+    }
+    if(!levelSelected){
+      Alert.alert("Selecione um nível de reporte");
+      return;
+    }
+    Alert.alert(`Reporte de ${reportType.title}`, `Nível: ${levelSelected.title}`);
+    
+    //region
+    //region.latitude, region.longitude
+    
+    updatePoints({...region, weight: levelSelected.weight})
+    setLevelSelected(null);
+    setReportType(null);
+    
+
+  }, [reportType, levelSelected])
+  if(reportType){
+    return (
+    <>
+    <View style={styles.markerFixed}>
+      <Image style={styles.marker} source={marker} />
+    </View>
+    <View style={{position:'absolute', bottom:0,  backgroundColor: 'white',  width: '100%'}}>
+      <View style={{flex: 1, padding: 16}}>
+        <View style={{alignItems: 'flex-end'}}>
+          <TouchableOpacity onPress={()=> setReportType(null)}>
+            <Ionicons name={"close"} size={30} color={'#000'}/>
+          </TouchableOpacity>
+        </View>
+        <View style={{flex: 1}}>
+          <Text style={{fontSize: 18, fontWeight: 'bold', marginBottom: 16}}>{reportType.title}</Text>
+          <Text style={{fontSize: 14, fontWeight: 'bold', marginBottom: 16}}>Nível do Reporte:</Text>
+          <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around'}}>
+            {reportType.levelsOptions.map((level)=>(
+              <TouchableOpacity key={level.title} onPress={()=> setLevelSelected(level)} style={[{height: 50, width: 50, borderRadius: '50%', alignItems: 'center', justifyContent: 'center', backgroundColor: 'gray'}, levelSelected && levelSelected.title === level.title ? {borderColor: colors.orange, borderWidth: "3px"} : {} ]}>
+                <Text style={{fontSize: 12, fontWeight: 'bold', color: 'white'}}>{level.title}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+          <View style={{flex: 1, marginTop: 20, alignItems: 'center'}}>
+            <TouchableOpacity onPress={confirmReport} disabled={!levelSelected} style={[{backgroundColor: colors.orange, padding: 16, width: '100%', alignItems: 'center', borderRadius: 8}, !levelSelected ? {opacity: 0.5} : {}]}>
+              <Text style={{fontSize: 12, fontWeight: 'bold', color: 'white'}}>CONFIRMAR</Text>
+            </TouchableOpacity>
           </View>
         </View>
-        )}
-      </Modal>
+      </View>
     </View>
-    <FloatingAction
-      actions={mapReportOptions}
-      onPressItem={name => {
-        console.log(mapReportOptions.find(option => option.name === name))
-        setReportType(mapReportOptions.find(option => option.name === name));
-        setModalLevelVisible(true);
-      }}
-      overlayColor={'rgba(255,255,255,0.0)'}
-    />
-  </>);
+    </>)
+  }
+  return (<FloatingAction
+    actions={mapReportOptions}
+    onPressItem={name => {
+      setReportType(mapReportOptions.find(option => option.name === name));
+    }}
+    overlayColor={'rgba(255,255,255,0.0)'}
+  />);
 }
 const styles = StyleSheet.create({
   centeredView : {
@@ -98,27 +142,32 @@ const styles = StyleSheet.create({
       width: 0,
       height: 2,
     },
+    width: '80%',
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
   },
+  markerFixed: {
+    position: 'absolute',
+  },
+  marker: {
+    width: 40,
+    height: 40,
+  },
   optionsContainer: {
     flexDirection: 'row',
+    flex: 1,
+    backgroundColor: 'red',
+    marginBottom: 10,
+    justifyContent: 'space-between',
   },
   optionItem: {
     height: 50,
     width: 50,
     borderRadius: 10,
     backgroundColor: colors.orange,
-  },
-  textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 export default MapActions;
