@@ -24,13 +24,13 @@ const MapActions = ({region, updatePoints}) => {
             name: "flood",
             levelsOptions: [{
                 title: "Baixo",
-                weight: 1,
+                weight: 10,
             }, {
                 title: "Médio",
-                weight: 2,
+                weight: 20,
             }, {
                 title: "Alto",
-                weight: 3,
+                weight: 30,
             }]
         },
         {
@@ -40,13 +40,13 @@ const MapActions = ({region, updatePoints}) => {
             name: "landslide",
             levelsOptions: [{
                 title: "Baixo",
-                weight: 1,
+                weight: 10,
             }, {
                 title: "Médio",
-                weight: 2,
+                weight: 20,
             }, {
                 title: "Alto",
-                weight: 3,
+                weight: 30,
             }]
         },
         {
@@ -56,13 +56,13 @@ const MapActions = ({region, updatePoints}) => {
             name: "rain",
             levelsOptions: [{
                 title: "Baixo",
-                weight: 1,
+                weight: 10,
             }, {
                 title: "Médio",
-                weight: 2,
+                weight: 20,
             }, {
                 title: "Alto",
-                weight: 3,
+                weight: 30,
             }]
         },
     ];
@@ -79,9 +79,9 @@ const MapActions = ({region, updatePoints}) => {
         try{
             addReport({
                 descricao: reportType.title,
-                lat: region.latitude,
-                lng: region.longitude,
-                intesidade: levelSelected.weight
+                latitude: region.latitude,
+                longitude: region.longitude,
+                weight: levelSelected.weight
             });
             Alert.alert(`Reporte de ${reportType.title}`, `Nível: ${levelSelected.title}`);
         } catch (e){

@@ -27,15 +27,10 @@ export default function App() {
                 ? 'newspaper'
                 : 'newspaper-outline';
                 break;
-              case 'Alertas':
+              case 'Notificações':
                 iconName = focused 
-                ? 'ios-alert-circle'
-                : 'ios-alert-circle-outline';
-                break;
-              case 'Perfil':
-                iconName = focused 
-                ? 'person'
-                : 'person-outline';
+                ? 'notifications'
+                : 'notifications-outline';
                 break;
             }
             // You can return any component that you like here!
@@ -47,8 +42,7 @@ export default function App() {
       >
         <Tab.Screen name="Mapa" component={MapScreen} />
         <Tab.Screen name="Notícias" component={NewsScreen} />
-        <Tab.Screen name="Alertas" component={AlertsScreen} />
-        <Tab.Screen name="Perfil" component={MapScreen} />
+        <Tab.Screen name="Notificações" component={AlertsScreen} />
       </Tab.Navigator>
     </NavigationContainer>
   );

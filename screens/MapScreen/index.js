@@ -1,10 +1,8 @@
 import * as React from 'react';
-import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
-import {StyleSheet, Text, View, Dimensions, Image} from 'react-native';
+import MapView, {Heatmap, PROVIDER_GOOGLE} from 'react-native-maps';
+import {StyleSheet, View, Dimensions} from 'react-native';
 import * as Location from 'expo-location';
-import {FloatingAction} from "react-native-floating-action";
 import MapActions from './MapActions';
-import marker from '../../assets/icons/marker.png';
 
 export default function MapScreen() {
     const [location, setLocation] = React.useState(null);
@@ -81,7 +79,7 @@ export default function MapScreen() {
                 onRegionChange={(region) => setRegion(region)}
             >
 
-                <MapView.Heatmap
+                <Heatmap
                     points={points}
                     opacity={1}
                     radius={20}
