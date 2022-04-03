@@ -5189,6 +5189,11 @@
     "react-freeze" "^1.0.0"
     "warn-once" "^0.1.0"
 
+"react-native-uuid@^2.0.1":
+  "integrity" "sha512-cptnoIbL53GTCrWlb/+jrDC6tvb7ypIyzbXNJcpR3Vab0mkeaaVd5qnB3f0whXYzS+SMoSQLcUUB0gEWqkPC0g=="
+  "resolved" "https://registry.npmjs.org/react-native-uuid/-/react-native-uuid-2.0.1.tgz"
+  "version" "2.0.1"
+
 "react-native-web@>= 0.11", "react-native-web@0.17.1":
   "integrity" "sha512-lUnn+2O8ynQ6/gJKylSxm7DLi2vHw6AujdDV1+LSa8Epe1bYFJNUcJTEhJf0jNYUFGOujzMtuG8Mkz3HdWTkag=="
   "resolved" "https://registry.npmjs.org/react-native-web/-/react-native-web-0.17.1.tgz"
@@ -6147,7 +6152,12 @@
   "resolved" "https://registry.npmjs.org/utils-merge/-/utils-merge-1.0.1.tgz"
   "version" "1.0.1"
 
-"uuid@^3.3.2", "uuid@^3.4.0":
+"uuid@^3.3.2":
+  "integrity" "sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A=="
+  "resolved" "https://registry.npmjs.org/uuid/-/uuid-3.4.0.tgz"
+  "version" "3.4.0"
+
+"uuid@^3.4.0":
   "integrity" "sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A=="
   "resolved" "https://registry.npmjs.org/uuid/-/uuid-3.4.0.tgz"
   "version" "3.4.0"

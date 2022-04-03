@@ -1,11 +1,12 @@
-import {collection, query, where, getDocs, setDoc, doc} from "firebase/firestore";
-import {db} from "./config";
+import {collection, query, getDocs, setDoc, doc} from "firebase/firestore";
+import uuid from "react-native-uuid";
+import { db } from "./config";
 
 class Report {
-    constructor(descricao, lat, long, intesidade) {
+    constructor(descricao, lat, lng, intesidade) {
         this.descricao = descricao; // Descricao
         this.lat = lat; // Latitude
-        this.long = long; // Longitude
+        this.lng = lng; // Longitude
         this.intesidade = intesidade; // Intensidade
     }
 
@@ -14,16 +15,16 @@ class Report {
     }
 }
 
-async function addReport(data) {
-    await setDoc(doc(db, "reports"), {
+export async function addReport(data) {
+    await setDoc(doc(db, "reports", uuid.v4()), {
         descricao: data.descricao,
         lat: data.lat,
-        long: data.long,
+        lng: data.lng,
         intesidade: data.intesidade
     });
 }
 
-async function getReports() {
+export async function getReports() {
     const result = [];
     const q = query(collection(db, "reports"));
     const querySnapshot = await getDocs(q);
