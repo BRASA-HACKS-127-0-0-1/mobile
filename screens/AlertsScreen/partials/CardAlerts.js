@@ -27,8 +27,8 @@ const CardAlerts = ({item}) => {
                     <Text style={{fontSize: 18}}>Instruções</Text>
                 </TouchableOpacity>
                 <Collapsible collapsed={isCollapsed}>
-                    {item.instrucoes.map((inst) => {
-                        return (<Text style={{marginTop: 10, fontSize: 16}}>- {inst}</Text>)
+                    {item.instrucoes.map((inst, index) => {
+                        return (<Text key={`instruction-${index}`} style={{marginTop: 10, fontSize: 16}}>- {inst}</Text>)
                     })
                     }
                 </Collapsible>
