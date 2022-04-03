@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { PROVIDER_GOOGLE, Marker} from 'react-native-maps';
+import MapView, { PROVIDER_GOOGLE, Polygon} from 'react-native-maps';
 import {StyleSheet, View, Dimensions} from 'react-native';
 import * as Location from 'expo-location';
 import {getReports} from '../../firebase/report';
 import MapActions from './MapActions';
-import MapView from "react-native-map-clustering";
+import { getPolygons } from '../../firebase/polygons';
 
 export default function MapScreen() {
     const [location, setLocation] = React.useState(null);
@@ -18,6 +18,7 @@ export default function MapScreen() {
     }
 
     const [points, setPoints] = React.useState([]);
+    const [polygons, setPolygons] = React.useState([]);
     const [region, setRegion] = React.useState({
         latitude: (mapsBoundaries.nw[0] + mapsBoundaries.so[0]) / 2,
         longitude: (mapsBoundaries.nw[1] + mapsBoundaries.so[1]) / 2,
@@ -40,8 +41,6 @@ export default function MapScreen() {
                 let location = await Location.getCurrentPositionAsync({});
                 setLocation(location);
 
-                let reports = await getReports();
-                setPoints(reports);
             } catch (error) {
                 setLocation(null);
             }
@@ -55,6 +54,15 @@ export default function MapScreen() {
         );
     }, [mapRef]);
 
+    React.useEffect(() => {
+        (async () => {
+            let reports = await getReports();
+            setPoints(reports);
+            let poly = await getPolygons();
+            console.log("Carregou os poligonos");
+            setPolygons(poly);
+        })();
+    }, []);
 
     const updatePoints = React.useCallback((report) => {
         setPoints([...points, report]);
@@ -76,11 +84,23 @@ export default function MapScreen() {
                 minDelta={0.01}
                 minZoomLevel={13}
                 ref={mapRef}
-                radius={40}
-                clusterColor={'red'}
                 onRegionChange={(region) => setRegion(region)}
             >
-                {points.map((point, index)=> {
+                {polygons && polygons.length > 0 && 
+                    polygons.map((polygon,index) => {
+                        console.log('Gerando Polygon');
+                        console.log()
+                        return (
+                            <Polygon
+                                key={`polygon-${index}`}
+                                coordinates={polygon.shape.slice(0, 10).map(c=>({latitude: c.latitude, longitude: c.longitude}))}
+                                strokeColor="#F00"
+                                fillColor="rgba(255,0,0,0.5)"
+                            />
+                        )
+                    })
+                }
+                {/* {points.map((point, index)=> {
                     let image = null;
                     switch(point.descricao) {
                         case 'Deslizamento': {
@@ -99,7 +119,7 @@ export default function MapScreen() {
                     return <Marker key={`point-${index}`} coordinate={{latitude: point.latitude, longitude: point.longitude}}
                     icon={image}
                     /> 
-                })}
+                })} */}
             </MapView>
             <MapActions region={region} updatePoints={updatePoints}/>
         </View>

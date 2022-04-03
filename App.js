@@ -6,6 +6,7 @@ import colors from './styles/colors';
 import NewsScreen from './screens/NewsScreen';
 import AlertsScreen from './screens/AlertsScreen';
 import Notification from './services/notification';
+import PolygonCreator from './screens/TestScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -44,7 +45,7 @@ export default function App() {
       >
         <Tab.Screen name="Mapa" component={MapScreen} />
         <Tab.Screen name="Notícias" component={NewsScreen} />
-        <Tab.Screen name="Notificações" component={AlertsScreen} />
+        <Tab.Screen name="Notificações" component={PolygonCreator} />
       </Tab.Navigator>
     </NavigationContainer>
   );

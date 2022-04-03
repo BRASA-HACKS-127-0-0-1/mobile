@@ -13,7 +13,7 @@
     },
     "notification": {
       "icon": "./assets/icon.png",
-      "iosDisplayInForeground": false
+      "iosDisplayInForeground": true
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -30,7 +30,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#FFFFFF"
       }
     },
