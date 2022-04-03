@@ -44,7 +44,7 @@ export default function App() {
       >
         <Tab.Screen name="Mapa" component={MapScreen} />
         <Tab.Screen name="Notícias" component={NewsScreen} />
-        <Tab.Screen name="Notificações" component={Notification} />
+        <Tab.Screen name="Notificações" component={AlertsScreen} />
       </Tab.Navigator>
     </NavigationContainer>
   );
