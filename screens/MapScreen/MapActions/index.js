@@ -67,7 +67,7 @@ const MapActions = ({region, updatePoints}) => {
         },
     ];
 
-    const confirmReport = useCallback(() => {
+    const confirmReport = useCallback(async () => {
         if (!reportType) {
             Alert.alert("Selecione um tipo de reporte");
             return;
@@ -76,22 +76,23 @@ const MapActions = ({region, updatePoints}) => {
             Alert.alert("Selecione um nível de reporte");
             return;
         }
+        const report = {
+            descricao: reportType.title,
+            latitude: region.latitude,
+            longitude: region.longitude,
+            weight: levelSelected.weight
+        }
         try{
-            addReport({
-                descricao: reportType.title,
-                latitude: region.latitude,
-                longitude: region.longitude,
-                weight: levelSelected.weight
-            });
+            await addReport(report);
             Alert.alert(`Reporte de ${reportType.title}`, `Nível: ${levelSelected.title}`);
         } catch (e){
             Alert.alert("Não foi possível registrar seu report nesse momento.")
         }
-
+        updatePoints(report)
         setLevelSelected(null);
         setReportType(null);
 
-    }, [reportType, levelSelected])
+    }, [reportType, levelSelected, updatePoints])
     if (reportType) {
         return (
             <>
