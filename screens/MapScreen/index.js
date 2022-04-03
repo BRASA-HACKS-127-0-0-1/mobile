@@ -1,9 +1,10 @@
 import * as React from 'react';
-import MapView, {Heatmap, PROVIDER_GOOGLE} from 'react-native-maps';
+import { PROVIDER_GOOGLE, Marker} from 'react-native-maps';
 import {StyleSheet, View, Dimensions} from 'react-native';
 import * as Location from 'expo-location';
 import {getReports} from '../../firebase/report';
 import MapActions from './MapActions';
+import MapView from "react-native-map-clustering";
 
 export default function MapScreen() {
     const [location, setLocation] = React.useState(null);
@@ -75,16 +76,30 @@ export default function MapScreen() {
                 minDelta={0.01}
                 minZoomLevel={13}
                 ref={mapRef}
+                radius={40}
+                clusterColor={'red'}
                 onRegionChange={(region) => setRegion(region)}
             >
-
-                <Heatmap
-                    points={points}
-                    opacity={1}
-                    radius={20}
-                    maxIntensity={111}
-                    gradientSmoothing={10}
-                />
+                {points.map((point, index)=> {
+                    let image = null;
+                    switch(point.descricao) {
+                        case 'Deslizamento': {
+                            image = require('../../assets/icons/markers/landslide.png');
+                            break;
+                        }
+                        case 'Chuva Forte': {
+                            image = require('../../assets/icons/markers/rain.png');
+                            break;
+                        }
+                        case 'Alagamento': {
+                            image = require('../../assets/icons/markers/flood.png');
+                            break;
+                        }
+                    }
+                    return <Marker key={`point-${index}`} coordinate={{latitude: point.latitude, longitude: point.longitude}}
+                    icon={image}
+                    /> 
+                })}
             </MapView>
             <MapActions region={region} updatePoints={updatePoints}/>
         </View>

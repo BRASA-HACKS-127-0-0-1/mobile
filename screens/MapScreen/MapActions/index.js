@@ -119,13 +119,13 @@ const MapActions = ({region, updatePoints}) => {
                                     <TouchableOpacity key={level.title} onPress={() => setLevelSelected(level)} style={[{
                                         height: 50,
                                         width: 50,
-                                        borderRadius: '50%',
+                                        borderRadius: 25,
                                         alignItems: 'center',
                                         justifyContent: 'center',
                                         backgroundColor: 'gray'
                                     }, levelSelected && levelSelected.title === level.title ? {
                                         borderColor: colors.orange,
-                                        borderWidth: "3px"
+                                        borderWidth: 3
                                     } : {}]}>
                                         <Text style={{
                                             fontSize: 12,
