@@ -17,7 +17,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "org.gobrasa.hacks.hackathon.time127001",
+      "config": {
+        "googleMapsApiKey": "AIzaSyAuv_LFB1m5VBwWL-RpJyAzpU_IILJqO8c"
+      }
     },
     "android": {
       "adaptiveIcon": {
