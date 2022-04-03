@@ -71,12 +71,7 @@ export default function MapScreen() {
             <MapView
                 style={styles.map}
                 provider={PROVIDER_GOOGLE}
-                initialRegion={{
-                    latitude: -22.5046,
-                    longitude: -43.17861,
-                    latitudeDelta: 0.05,
-                    longitudeDelta: 0.05,
-                }}
+                initialRegion={region}
                 minDelta={0.01}
                 minZoomLevel={13}
                 ref={mapRef}
