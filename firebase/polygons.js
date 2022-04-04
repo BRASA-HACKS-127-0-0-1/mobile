@@ -1,6 +1,6 @@
-import {collection, query, getDocs, setDoc, doc} from "firebase/firestore";
-import uuid from "react-native-uuid";
+import {collection, query, getDocs} from "firebase/firestore";
 import {db} from "./config";
+
 export async function getPolygons() {
     const result = [];
     const q = query(collection(db, "polygon"));

@@ -43,13 +43,16 @@ const AlertsScreen = () => {
                 {(selectedIndex === 0 && listAlertsToday && listAlertsToday.length > 0) ? (
                     listAlertsToday.map((item) => {
                             return (
-                                <View key={item.id} style={[styles.card, styles.shadowProp, {borderTopColor: item.aviso_cor, borderTopWidth: 5}]}>
+                                <View key={item.id} style={[styles.card, styles.shadowProp, {
+                                    borderTopColor: item.aviso_cor,
+                                    borderTopWidth: 5
+                                }]}>
                                     <CardAlerts item={item}/>
                                 </View>
                             )
                         }
                     )
-                ) : ( selectedIndex === 0 &&
+                ) : (selectedIndex === 0 &&
                     <Text style={{
                         fontSize: 14,
                         fontWeight: 'bold',
@@ -67,7 +70,7 @@ const AlertsScreen = () => {
                             )
                         }
                     )
-                ) : ( selectedIndex === 1 &&
+                ) : (selectedIndex === 1 &&
                     <Text style={{
                         fontSize: 14,
                         fontWeight: 'bold',
