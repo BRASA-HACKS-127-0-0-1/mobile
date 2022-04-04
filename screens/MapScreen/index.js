@@ -81,7 +81,7 @@ export default function MapScreen() {
                     longitudeDelta: (mapsBoundaries.nw[0] - mapsBoundaries.so[0]) * ASPECT_RATIO,
                 }}
                 minDelta={0.01}
-                minZoomLevel={13}
+                // minZoomLevel={13}
                 ref={mapRef}
                 onRegionChange={(region) => setRegion(region)}
             >
