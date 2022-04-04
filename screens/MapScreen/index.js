@@ -26,7 +26,6 @@ export default function MapScreen() {
         (async () => {
             try {
                 let {status} = await Location.requestForegroundPermissionsAsync();
-                console.log(status)
                 if (status !== 'granted') {
                     setErrorMsg('Permission to access location was denied');
                     setLocation(null);
@@ -54,7 +53,6 @@ export default function MapScreen() {
             let reports = await getReports();
             setPoints(reports);
             let poly = await getPolygons();
-            console.log("Carregou os poligonos", poly.length);
             setPolygons(poly);
         })();
     }, []);
@@ -87,7 +85,6 @@ export default function MapScreen() {
             >
                 {polygons && polygons.length > 0 && 
                     polygons.map((p,index) => {
-                        console.log(p)
                         let color = "rgba(150,0,255,0.2)";
                         if(p.weight > 25){
                             color = "rgba(255,0,0,0.2)"
