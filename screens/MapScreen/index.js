@@ -19,12 +19,7 @@ export default function MapScreen() {
 
     const [points, setPoints] = React.useState([]);
     const [polygons, setPolygons] = React.useState([]);
-    const [region, setRegion] = React.useState({
-        latitude: (mapsBoundaries.nw[0] + mapsBoundaries.so[0]) / 2,
-        longitude: (mapsBoundaries.nw[1] + mapsBoundaries.so[1]) / 2,
-        latitudeDelta: mapsBoundaries.nw[0] - mapsBoundaries.so[0],
-        longitudeDelta: (mapsBoundaries.nw[0] - mapsBoundaries.so[0]) * ASPECT_RATIO,
-    });
+    const [region, setRegion] = React.useState(null);
     const mapRef = React.useRef();
 
     React.useEffect(() => {
@@ -59,7 +54,7 @@ export default function MapScreen() {
             let reports = await getReports();
             setPoints(reports);
             let poly = await getPolygons();
-            console.log("Carregou os poligonos");
+            console.log("Carregou os poligonos", poly.length);
             setPolygons(poly);
         })();
     }, []);
@@ -74,28 +69,36 @@ export default function MapScreen() {
     } else if (location) {
         text = JSON.stringify(location);
     }
-
     return (
         <View style={styles.container}>
             <MapView
                 style={styles.map}
                 provider={PROVIDER_GOOGLE}
-                initialRegion={region}
+                initialRegion={{
+                    latitude: (mapsBoundaries.nw[0] + mapsBoundaries.so[0]) / 2,
+                    longitude: (mapsBoundaries.nw[1] + mapsBoundaries.so[1]) / 2,
+                    latitudeDelta: mapsBoundaries.nw[0] - mapsBoundaries.so[0],
+                    longitudeDelta: (mapsBoundaries.nw[0] - mapsBoundaries.so[0]) * ASPECT_RATIO,
+                }}
                 minDelta={0.01}
                 minZoomLevel={13}
                 ref={mapRef}
                 onRegionChange={(region) => setRegion(region)}
             >
                 {polygons && polygons.length > 0 && 
-                    polygons.map((polygon,index) => {
-                        console.log('Gerando Polygon');
-                        console.log()
+                    polygons.map((p,index) => {
+                        console.log(p)
+                        let color = "rgba(150,0,255,0.2)";
+                        if(p.weight > 25){
+                            color = "rgba(255,0,0,0.2)"
+                        }else if(p.weight > 15){
+                            color = "rgba(255,180,0,0.2)"
+                        }
                         return (
                             <Polygon
                                 key={`polygon-${index}`}
-                                coordinates={polygon.shape.slice(0, 10).map(c=>({latitude: c.latitude, longitude: c.longitude}))}
-                                strokeColor="#F00"
-                                fillColor="rgba(255,0,0,0.5)"
+                                coordinates={p.coordinates}
+                                fillColor={color}
                             />
                         )
                     })

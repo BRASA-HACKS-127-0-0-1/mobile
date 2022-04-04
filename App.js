@@ -3,16 +3,16 @@ import MapScreen from './screens/MapScreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import colors from './styles/colors';
-import NewsScreen from './screens/NewsScreen';
 import AlertsScreen from './screens/AlertsScreen';
 import Notification from './services/notification';
-import PolygonCreator from './screens/TestScreen';
+import { StatusBar } from 'expo-status-bar';
 
 const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
+      <StatusBar style="dark" />
       <Notification />
       <Tab.Navigator
         screenOptions={({ route }) => ({
@@ -24,11 +24,6 @@ export default function App() {
                 iconName = focused 
                 ? 'map'
                 : 'map-outline';
-                break;
-              case 'Notícias':
-                iconName = focused 
-                ? 'newspaper'
-                : 'newspaper-outline';
                 break;
               case 'Notificações':
                 iconName = focused 
@@ -44,8 +39,7 @@ export default function App() {
         })}
       >
         <Tab.Screen name="Mapa" component={MapScreen} />
-        <Tab.Screen name="Notícias" component={NewsScreen} />
-        <Tab.Screen name="Notificações" component={PolygonCreator} />
+        <Tab.Screen name="Notificações" component={AlertsScreen} />
       </Tab.Navigator>
     </NavigationContainer>
   );

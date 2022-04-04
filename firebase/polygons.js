@@ -3,7 +3,7 @@ import uuid from "react-native-uuid";
 import {db} from "./config";
 export async function getPolygons() {
     const result = [];
-    const q = query(collection(db, "polygons"));
+    const q = query(collection(db, "polygon"));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
         result.push(doc.data());
