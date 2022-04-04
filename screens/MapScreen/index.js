@@ -1,10 +1,10 @@
 import * as React from 'react';
-import MapView, { PROVIDER_GOOGLE, Polygon, Marker} from 'react-native-maps';
+import MapView, {PROVIDER_GOOGLE, Polygon, Marker} from 'react-native-maps';
 import {StyleSheet, View, Dimensions} from 'react-native';
 import * as Location from 'expo-location';
 import {getReports} from '../../firebase/report';
 import MapActions from './MapActions';
-import { getPolygons } from '../../firebase/polygons';
+import {getPolygons} from '../../firebase/polygons';
 
 export default function MapScreen() {
     const [location, setLocation] = React.useState(null);
@@ -85,27 +85,27 @@ export default function MapScreen() {
                 ref={mapRef}
                 onRegionChange={(region) => setRegion(region)}
             >
-                {polygons && polygons.length > 0 && 
-                    polygons.map((p,index) => {
-                        console.log(p)
-                        let color = "rgba(150,0,255,0.2)";
-                        if(p.weight > 25){
-                            color = "rgba(255,0,0,0.2)"
-                        }else if(p.weight > 15){
-                            color = "rgba(255,180,0,0.2)"
-                        }
-                        return (
-                            <Polygon
-                                key={`polygon-${index}`}
-                                coordinates={p.coordinates}
-                                fillColor={color}
-                            />
-                        )
-                    })
+                {polygons && polygons.length > 0 &&
+                polygons.map((p, index) => {
+                    console.log(p)
+                    let color = "rgba(150,0,255,0.2)";
+                    if (p.weight > 25) {
+                        color = "rgba(255,0,0,0.2)"
+                    } else if (p.weight > 15) {
+                        color = "rgba(255,180,0,0.2)"
+                    }
+                    return (
+                        <Polygon
+                            key={`polygon-${index}`}
+                            coordinates={p.coordinates}
+                            fillColor={color}
+                        />
+                    )
+                })
                 }
-                {points.map((point, index)=> {
+                {points.map((point, index) => {
                     let image = null;
-                    switch(point.descricao) {
+                    switch (point.descricao) {
                         case 'Deslizamento': {
                             image = require('../../assets/icons/markers/landslide.png');
                             break;
@@ -119,10 +119,13 @@ export default function MapScreen() {
                             break;
                         }
                     }
-                    return <Marker key={`point-${index}`} coordinate={{latitude: point.latitude, longitude: point.longitude}}
-                    icon={image}
-                    /> 
-                })} 
+                    return <Marker key={`point-${index}`} coordinate={{
+                        latitude: point.latitude,
+                        longitude: point.longitude
+                    }}
+                                   icon={image}
+                    />
+                })}
             </MapView>
             <MapActions region={region} updatePoints={updatePoints}/>
         </View>

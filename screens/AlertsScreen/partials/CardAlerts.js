@@ -8,7 +8,7 @@ const CardAlerts = ({item}) => {
     const [isCollapsed, setCollapsed] = React.useState(true)
     const initDate = new Date(item.data_inicio);
     const endDate = new Date(item.data_fim);
-    const options = { weekday: undefined, year: undefined, month: 'long', day: 'numeric' };
+    const options = {weekday: undefined, year: undefined, month: 'long', day: 'numeric'};
 
     return (
         <>
@@ -16,7 +16,10 @@ const CardAlerts = ({item}) => {
                 {item.descricao}
                 <Text style={{fontWeight: 'normal', fontSize: 16}}> - {item.severidade}</Text>
             </Text>
-            <Text style={{fontSize: 16, marginTop: 8}}>{initDate.toLocaleString('pt-BR', options)} - {endDate.toLocaleString('pt-BR', options)}</Text>
+            <Text style={{
+                fontSize: 16,
+                marginTop: 8
+            }}>{initDate.toLocaleString('pt-BR', options)} - {endDate.toLocaleString('pt-BR', options)}</Text>
             <Text style={{fontSize: 16, marginTop: 8}}>{item.hora_inicio} - {item.hora_fim}</Text>
             <View>
                 <TouchableOpacity
@@ -28,7 +31,8 @@ const CardAlerts = ({item}) => {
                 </TouchableOpacity>
                 <Collapsible collapsed={isCollapsed}>
                     {item.instrucoes.map((inst, index) => {
-                        return (<Text key={`instruction-${index}`} style={{marginTop: 10, fontSize: 16}}>- {inst}</Text>)
+                        return (
+                            <Text key={`instruction-${index}`} style={{marginTop: 10, fontSize: 16}}>- {inst}</Text>)
                     })
                     }
                 </Collapsible>
