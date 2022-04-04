@@ -1,5 +1,5 @@
 import * as React from 'react';
-import MapView, { PROVIDER_GOOGLE, Polygon} from 'react-native-maps';
+import MapView, { PROVIDER_GOOGLE, Polygon, Marker} from 'react-native-maps';
 import {StyleSheet, View, Dimensions} from 'react-native';
 import * as Location from 'expo-location';
 import {getReports} from '../../firebase/report';
@@ -103,7 +103,7 @@ export default function MapScreen() {
                         )
                     })
                 }
-                {/* {points.map((point, index)=> {
+                {points.map((point, index)=> {
                     let image = null;
                     switch(point.descricao) {
                         case 'Deslizamento': {
@@ -122,7 +122,7 @@ export default function MapScreen() {
                     return <Marker key={`point-${index}`} coordinate={{latitude: point.latitude, longitude: point.longitude}}
                     icon={image}
                     /> 
-                })} */}
+                })} 
             </MapView>
             <MapActions region={region} updatePoints={updatePoints}/>
         </View>
